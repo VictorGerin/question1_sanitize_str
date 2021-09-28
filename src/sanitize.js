@@ -6,43 +6,48 @@
  * 
  * @param {string} str - text to be saniteze
  * @param {Object} conf - Configuration object
- * @param {string} conf.qoute ['"'] - Qoute to be search in text
- * @param {boolean} conf.escape [false] - Escape all conf.qoute with \
- * @param {boolean} conf.useHtmlTag [false] - Replaces the qoutes to Html qoute <p>
+ * @param {string} conf.quote ['"'] - quote to be search in text
+ * @param {boolean} conf.smartQuote [false] - When usedm quote is ignored to search with “ ”
+ * @param {boolean} conf.escape [false] - Escape all conf.quote with \
+ * @param {boolean} conf.useHtmlTag [false] - Replaces the quotes to Html quote <p>
  * @returns Sanitized string
  */
 function sanitize(str, conf)
 {
-    
+
+    if(str === undefined)
+        throw new TypeError('str should be pass to be sanitize')
+
     conf = {
         ...{
-            qoute : '"',
+            quote : '"',
+            smartQuote: false,
             escape: false,
             useHtmlTag: false
         },...conf
     }
-
-    //Remove all qoute that has words between like in:
+    
+    //Remove all quote that has words between like in:
     // Hello "Victor Lacerda" World
-    let reQoute = new RegExp(`[${conf.qoute}](.*?)[${conf.qoute}]`);
+    let reQuote = new RegExp(`[${conf.smartQuote ? '“' : conf.quote}](.*?)[${conf.smartQuote ? '”' : conf.quote}]`);
 
     //Same as before but taking into account new line like in:
     // Hello "Victor
     // Lacerda" World
-    let reQouteNewLine = new RegExp(`[${conf.qoute}]([^]*?)[${conf.qoute}]`, 'm');
+    let reQuoteNewLine = new RegExp(`[${conf.smartQuote ? '“' : conf.quote}]([^]*?)[${conf.smartQuote ? '”' : conf.quote}]`, 'm');
 
     var replaceFirst = '';
     var replaceLast = '';
     if (conf.escape) {
-        replaceFirst = '\\' + conf.qoute;
-        replaceLast = '\\' + conf.qoute;
+        replaceFirst = '\\' + conf.quote;
+        replaceLast = '\\' + conf.quote;
     } else if(conf.useHtmlTag) {
         replaceFirst = '<q>'
         replaceLast = '</q>'
     }
 
-    str = str.replace(reQoute, `${replaceFirst}$1${replaceLast}`)
-    str = str.replace(reQouteNewLine, `${replaceFirst}$1${replaceLast}`)
+    str = str.replace(reQuote, `${replaceFirst}$1${replaceLast}`)
+    str = str.replace(reQuoteNewLine, `${replaceFirst}$1${replaceLast}`)
 
     return str
 }
