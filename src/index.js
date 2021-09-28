@@ -9,9 +9,14 @@ var text = "Good Hamlet, cast thy nighted colour off,\n" +
 "Thou know'st 'tis common; \"all\" that lives must die,\n" +
 "Passing through nature to eternity.\n"
 
+console.log('Original Text')
+console.log('-------------------------')
+console.log(text)
+console.log('-------------------------')
 
-console.log(sanitize(text, {
-    escape: true
-}))
+console.log('Sanitized Text')
+console.log('-------------------------')
+console.log(sanitize(text))
+console.log('-------------------------')
 
 // export default sanitize
