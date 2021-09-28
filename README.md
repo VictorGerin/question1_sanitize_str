@@ -1,6 +1,6 @@
 # question1_sanitize_str
 
-run test
+# run test
   yarn test
-run exemple
+# run exemple
   yarn start
