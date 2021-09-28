@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "babel ./src/*.js -d dist",
+    "build": "babel ./src/**/*.js -d dist",
     "start": "npm run build && node dist/index.js"
   },
   "jest": {
