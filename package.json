@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test": "jest",
-    "pretest": "prettier --write ./test/**/*.js",
-    "preexemple": "prettier --write ./exemple/**/*.js",
+    "pretest": "prettier --write ./src/**/*.js ./test/**/*.js",
+    "preexemple": "prettier --write ./src/**/*.js ./exemple/**/*.js",
     "exemple": "node exemple/index.js"
   },
   "jest": {

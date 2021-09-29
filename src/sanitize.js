@@ -50,4 +50,3 @@ function sanitize(str, conf = {}) {
 }
 
 exports.sanitize = sanitize
-// export default sanitize
