@@ -1,9 +1,7 @@
-
-
 /**
- * 
+ *
  * Remove all Qoutations in the str
- * 
+ *
  * @param {string} str - text to be saniteze
  * @param {Object} conf - Configuration object
  * @param {string} conf.quote ['"'] - quote to be search in text
@@ -12,44 +10,44 @@
  * @param {boolean} conf.useHtmlTag [false] - Replaces the quotes to Html quote <p>
  * @returns Sanitized string
  */
-function sanitize(str, conf)
-{
+function sanitize(str, conf = {}) {
+  if (typeof str !== 'string')
+    throw new TypeError('str should be pass to be sanitize')
 
-    if(str === undefined)
-        throw new TypeError('str should be pass to be sanitize')
+  if (typeof conf !== 'object') throw new TypeError('conf should be a object')
 
-    conf = {
-        ...{
-            quote : '"',
-            smartQuote: false,
-            escape: false,
-            useHtmlTag: false
-        },...conf
-    }
-    
-    //Remove all quote that has words between like in:
-    // Hello "Victor Lacerda" World
-    let reQuote = new RegExp(`[${conf.smartQuote ? '“' : conf.quote}](.*?)[${conf.smartQuote ? '”' : conf.quote}]`);
+  const _conf = {
+    quote: '"',
+    smartQuote: false,
+    escape: false,
+    useHtmlTag: false,
+    ...conf,
+  }
 
-    //Same as before but taking into account new line like in:
-    // Hello "Victor
-    // Lacerda" World
-    let reQuoteNewLine = new RegExp(`[${conf.smartQuote ? '“' : conf.quote}]([^]*?)[${conf.smartQuote ? '”' : conf.quote}]`, 'm');
+  //Remove all quote that has words between like in:
+  // Hello "Victor
+  // Lacerda" World
+  let reQuoteNewLine = new RegExp(
+    `[${_conf.smartQuote ? '“' : _conf.quote}]([^]*?)[${
+      _conf.smartQuote ? '”' : _conf.quote
+    }]`,
+    'mg',
+  )
 
-    var replaceFirst = '';
-    var replaceLast = '';
-    if (conf.escape) {
-        replaceFirst = '\\' + conf.quote;
-        replaceLast = '\\' + conf.quote;
-    } else if(conf.useHtmlTag) {
-        replaceFirst = '<q>'
-        replaceLast = '</q>'
-    }
+  let replaceFirst = ''
+  let replaceLast = ''
+  if (_conf.escape) {
+    replaceFirst = '\\' + _conf.quote
+    replaceLast = '\\' + _conf.quote
+  } else if (_conf.useHtmlTag) {
+    replaceFirst = '<q>'
+    replaceLast = '</q>'
+  }
 
-    str = str.replace(reQuote, `${replaceFirst}$1${replaceLast}`)
-    str = str.replace(reQuoteNewLine, `${replaceFirst}$1${replaceLast}`)
+  str = str.replace(reQuoteNewLine, `${replaceFirst}$1${replaceLast}`)
 
-    return str
+  return str
 }
 
-export default sanitize
+exports.sanitize = sanitize
+// export default sanitize
